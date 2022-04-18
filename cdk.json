@@ -8,6 +8,7 @@
       "README.md",
       "cdk*.json",
       "**/*.d.ts",
+      "**/*.spec.ts",
       "**/*.js",
       "tsconfig.json",
       "package*.json",
