@@ -2,7 +2,7 @@
   "name": "personas",
   "version": "0.1.0",
   "bin": {
-    "personas": "bin/personas.js"
+    "personas": "stacks/stack.js"
   },
   "scripts": {
     "build": "tsc",
