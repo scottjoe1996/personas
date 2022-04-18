@@ -8,6 +8,6 @@ export class AppSyncStack extends Stack {
   constructor(scope: Construct, id: string, props?: AppSyncProps) {
     super(scope, id, props);
 
-    new AppSyncConstruct(scope);
+    new AppSyncConstruct(this, props);
   }
 }
