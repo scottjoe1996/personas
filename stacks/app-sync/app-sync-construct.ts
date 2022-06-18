@@ -44,7 +44,7 @@ export class AppSyncConstruct extends Construct {
         role: loggingServiceRole,
         fieldLogLevel: FieldLogLevel.ALL
       },
-      schema: Schema.fromAsset(join(__dirname, 'schema.graphql'))
+      schema: Schema.fromAsset(join(__dirname, '..', '..', 'schema.graphql'))
     });
 
     const lambdaDataSource = api.addLambdaDataSource('LambdaDataSource', resolverLambdaFunction);
