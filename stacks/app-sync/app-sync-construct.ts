@@ -1,8 +1,12 @@
 import { Construct } from 'constructs';
+import { join } from 'path';
 
-import { CfnOutput } from 'aws-cdk-lib';
-import * as appSync from 'aws-cdk-lib/aws-appsync';
-import * as iam from 'aws-cdk-lib/aws-iam';
+import { CfnOutput, Duration } from 'aws-cdk-lib';
+
+import { AuthorizationType, FieldLogLevel, GraphqlApi, Schema } from '@aws-cdk/aws-appsync-alpha';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { Effect, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
 
 import { AppSyncProps } from './app-sync-props';
 
@@ -10,50 +14,52 @@ export class AppSyncConstruct extends Construct {
   constructor(scope: Construct, _props?: AppSyncProps) {
     super(scope, 'AppSyncConstruct');
 
-    const loggingServiceRole = new iam.Role(this, 'LoggingServiceRole', {
-      assumedBy: new iam.ServicePrincipal('appsync.amazonaws.com')
+    const resolverLambdaFunction = new NodejsFunction(this, 'AppSyncResolverLambda', {
+      entry: join(__dirname, '..', '..', 'app', 'resolver', 'resolver.ts'),
+      handler: 'resolve',
+      functionName: 'app-sync-resolver-lambda',
+      runtime: Runtime.NODEJS_14_X,
+      timeout: Duration.seconds(30)
     });
 
+    const loggingServiceRole = new Role(this, 'LoggingServiceRole', {
+      assumedBy: new ServicePrincipal('appsync.amazonaws.com')
+    });
     loggingServiceRole.addToPolicy(
-      new iam.PolicyStatement({
+      new PolicyStatement({
         resources: ['*'],
         actions: ['cloudwatch:*', 'logs:*'],
-        effect: iam.Effect.ALLOW
+        effect: Effect.ALLOW
       })
     );
 
-    const api = new appSync.CfnGraphQLApi(this, 'Api', {
-      name: 'personas-appsync-api',
-      logConfig: {
-        cloudWatchLogsRoleArn: loggingServiceRole.roleArn,
-        fieldLogLevel: 'ALL'
+    const api = new GraphqlApi(this, 'Api', {
+      name: 'personas-api',
+      authorizationConfig: {
+        defaultAuthorization: {
+          authorizationType: AuthorizationType.API_KEY
+        }
       },
-      authenticationType: 'API_KEY'
+      logConfig: {
+        role: loggingServiceRole,
+        fieldLogLevel: FieldLogLevel.ALL
+      },
+      schema: Schema.fromAsset(join(__dirname, 'schema.graphql'))
     });
 
-    new appSync.CfnGraphQLSchema(this, 'ApiSchema', {
-      apiId: api.attrApiId,
-      definition: `
-        type Persona {
-          id: ID!
-          name: String!
-          role: String!
-          quote: String!
-          description: String!
-        }
-        
-        type Query {
-          persona(id: ID!): Persona
-        }
-      `
+    const lambdaDataSource = api.addLambdaDataSource('LambdaDataSource', resolverLambdaFunction);
+
+    lambdaDataSource.createResolver({
+      typeName: 'Query',
+      fieldName: 'personas'
+    });
+    lambdaDataSource.createResolver({
+      typeName: 'Query',
+      fieldName: 'persona'
     });
 
-    const apiKey = new appSync.CfnApiKey(this, 'ApiKey', {
-      apiId: api.attrApiId
-    });
-
-    new CfnOutput(this, 'ApiKeyOutput', {
-      value: apiKey.apiKeyId || ''
+    new CfnOutput(this, 'AppSyncApiKey', {
+      value: api.apiKey || ''
     });
   }
 }

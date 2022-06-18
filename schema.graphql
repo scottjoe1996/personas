@@ -1,0 +1,12 @@
+type Persona {
+  id: ID!
+  name: String!
+  role: String!
+  quote: String!
+  description: String!
+}
+
+type Query {
+  persona(id: ID!): Persona
+  personas: Persona[]
+}
