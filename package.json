@@ -8,6 +8,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "jest",
+    "cdk-deploy": "cdk deploy --profile ${PROFILE} ${STACK}",
     "cdk-bootstrap": "cdk bootstrap --profile ${PROFILE}"
   },
   "devDependencies": {

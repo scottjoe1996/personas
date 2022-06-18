@@ -7,6 +7,6 @@ type Persona {
 }
 
 type Query {
-  persona(id: ID!): Persona
-  personas: Persona[]
+  persona(id: ID!): Persona!
+  personas: [Persona!]!
 }
