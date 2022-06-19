@@ -8,6 +8,6 @@ const DEFAULT_AWS_ENV = { account: process.env.CDK_DEFAULT_ACCOUNT, region: proc
 
 const app = new cdk.App();
 
-new AppSyncStack(app, 'PersonasAppsync', {
+new AppSyncStack(app, 'PersonasAppSync', {
   env: DEFAULT_AWS_ENV
 });
