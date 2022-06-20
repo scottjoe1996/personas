@@ -1,5 +1,6 @@
 type Persona {
   id: ID!
+  projectId: ID!
   name: String!
   role: String!
   quote: String!
