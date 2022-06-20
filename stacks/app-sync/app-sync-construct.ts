@@ -15,7 +15,7 @@ export class AppSyncConstruct extends Construct {
     super(scope, 'AppSyncConstruct');
 
     const resolverLambdaFunction = new NodejsFunction(this, 'AppSyncResolverLambda', {
-      entry: join(__dirname, '..', '..', 'app', 'resolver', 'resolver.ts'),
+      entry: join(__dirname, '..', '..', 'app', 'resolvers', 'resolver.ts'),
       handler: 'resolve',
       functionName: 'app-sync-resolver-lambda',
       runtime: Runtime.NODEJS_14_X,
