@@ -7,7 +7,21 @@ type Persona {
   description: String!
 }
 
+type PersonaInput {
+  projectId: ID!
+  name: String!
+  role: String!
+  quote: String!
+  description: String!
+}
+
+type Mutation {
+  createPersona(persona: PersonaInput!): ID!
+  editPersona(persona: PersonaInput!): Persona!
+  deletePersona(id: ID!): ID!
+}
+
 type Query {
-  persona(id: ID!): Persona!
-  personas: [Persona!]!
+  persona(id: ID!): Persona
+  personas(projectId: ID!): [Persona!]!
 }

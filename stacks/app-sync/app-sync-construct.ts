@@ -57,6 +57,18 @@ export class AppSyncConstruct extends Construct {
       typeName: 'Query',
       fieldName: 'persona'
     });
+    lambdaDataSource.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'createPersona'
+    });
+    lambdaDataSource.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'editPersona'
+    });
+    lambdaDataSource.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'deletePersona'
+    });
 
     new CfnOutput(this, 'AppSyncApiKey', {
       value: api.apiKey || ''
