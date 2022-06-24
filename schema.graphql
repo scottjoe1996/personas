@@ -7,7 +7,7 @@ type Persona {
   description: String!
 }
 
-type PersonaInput {
+input PersonaInput {
   projectId: ID!
   name: String!
   role: String!
