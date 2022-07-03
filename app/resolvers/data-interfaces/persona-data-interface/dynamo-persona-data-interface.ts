@@ -1,7 +1,9 @@
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PersonaInput } from '../../../generated/graphql';
+import { Persona, PersonaInput } from '../../../generated/graphql';
+
+import { PersonaMapper } from '../data-mapper/persona-mapper';
 
 import { PersonaDataInterface } from './persona-data-interface';
 
@@ -32,6 +34,30 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
         }
 
         return personaId;
+      });
+  }
+
+  public getPersonas(projectId: string): Promise<Persona[]> {
+    return this.dynamoClient
+      .query({
+        TableName: this.tableName,
+        KeyConditionExpression: 'projectId = :projectId',
+        ExpressionAttributeValues: {
+          ':projectId': { S: projectId }
+        }
+      })
+      .promise()
+      .then((dynamoResponse) => {
+        if (dynamoResponse.$response.error) {
+          console.log(`Failed to get personas in ${this.tableName} table with error: ${dynamoResponse.$response.error.message}`);
+          throw dynamoResponse.$response.error;
+        }
+
+        if (dynamoResponse.Items) {
+          return dynamoResponse.Items.map((item) => PersonaMapper.dynamoItemToGraphQl(item));
+        }
+
+        return [];
       });
   }
 }
