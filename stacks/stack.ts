@@ -10,10 +10,10 @@ import { DynamoDbProps } from './dynamo-db/dynamo-db-props';
 
 const app = new cdk.App();
 
-const appSyncStack = new AppSyncStack(app, 'PersonasAppSync', getStackProps<AppSyncProps>({}));
+const appSyncStack = new AppSyncStack(app, 'PersonasAppSync', getStackProps<AppSyncProps>({ dynamoDbTableName: CONFIG.dynamoDbName }));
 
 new DynamoDbStack(
   app,
   'PersonasDynamoDb',
-  getStackProps<DynamoDbProps>({ dynamoTableName: CONFIG.dynamoDbName, resolverLambda: appSyncStack.resolverLambdaFunction })
+  getStackProps<DynamoDbProps>({ dynamoDbTableName: CONFIG.dynamoDbName, resolverLambda: appSyncStack.resolverLambdaFunction })
 );

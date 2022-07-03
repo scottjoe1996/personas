@@ -1,1 +1,3 @@
-export interface AppSyncProps {}
+export interface AppSyncProps {
+  dynamoDbTableName: string;
+}

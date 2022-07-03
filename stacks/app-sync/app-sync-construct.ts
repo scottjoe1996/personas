@@ -13,16 +13,21 @@ import { CustomStackProps } from '../config/config';
 import { AppSyncProps } from './app-sync-props';
 
 export class AppSyncConstruct extends Construct {
-  public readonly resolverLambdaFunction = new NodejsFunction(this, 'AppSyncResolverLambda', {
-    entry: join(__dirname, '..', '..', 'app', 'resolvers', 'resolver.ts'),
-    handler: 'resolve',
-    functionName: 'app-sync-resolver-lambda',
-    runtime: Runtime.NODEJS_14_X,
-    timeout: Duration.seconds(30)
-  });
+  public readonly resolverLambdaFunction: NodejsFunction;
 
-  constructor(scope: Construct, _props?: CustomStackProps<AppSyncProps>) {
+  constructor(scope: Construct, { customProps }: CustomStackProps<AppSyncProps>) {
     super(scope, 'AppSyncConstruct');
+
+    this.resolverLambdaFunction = new NodejsFunction(this, 'AppSyncResolverLambda', {
+      entry: join(__dirname, '..', '..', 'app', 'resolvers', 'resolver.ts'),
+      handler: 'resolve',
+      functionName: 'app-sync-resolver-lambda',
+      runtime: Runtime.NODEJS_14_X,
+      timeout: Duration.seconds(30),
+      environment: {
+        DYNAMO_DB_TABLE_NAME: customProps.dynamoDbTableName
+      }
+    });
 
     const loggingServiceRole = new Role(this, 'LoggingServiceRole', {
       assumedBy: new ServicePrincipal('appsync.amazonaws.com')

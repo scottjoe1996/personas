@@ -11,7 +11,7 @@ import { AppSyncProps } from './app-sync-props';
 export class AppSyncStack extends Stack {
   public readonly resolverLambdaFunction: NodejsFunction;
 
-  constructor(scope: Construct, id: string, props?: CustomStackProps<AppSyncProps>) {
+  constructor(scope: Construct, id: string, props: CustomStackProps<AppSyncProps>) {
     super(scope, id, props);
 
     const appSyncConstruct = new AppSyncConstruct(this, props);
