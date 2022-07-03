@@ -11,7 +11,7 @@ export class DynamoDbConstruct extends Construct {
     super(scope, 'DynamoDbConstruct');
 
     const personasTable = new Table(this, 'PersonasTable', {
-      tableName: 'personas',
+      tableName: customProps.dynamoTableName,
       partitionKey: {
         name: 'id',
         type: AttributeType.STRING
