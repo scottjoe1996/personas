@@ -1,3 +1,1 @@
-import { StackProps } from 'aws-cdk-lib';
-
-export interface AppSyncProps extends StackProps {}
+export interface AppSyncProps {}

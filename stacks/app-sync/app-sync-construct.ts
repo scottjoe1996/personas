@@ -8,6 +8,8 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Effect, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Runtime } from 'aws-cdk-lib/aws-lambda';
 
+import { CustomStackProps } from '../config/config';
+
 import { AppSyncProps } from './app-sync-props';
 
 export class AppSyncConstruct extends Construct {
@@ -19,7 +21,7 @@ export class AppSyncConstruct extends Construct {
     timeout: Duration.seconds(30)
   });
 
-  constructor(scope: Construct, _props?: AppSyncProps) {
+  constructor(scope: Construct, _props?: CustomStackProps<AppSyncProps>) {
     super(scope, 'AppSyncConstruct');
 
     const loggingServiceRole = new Role(this, 'LoggingServiceRole', {
