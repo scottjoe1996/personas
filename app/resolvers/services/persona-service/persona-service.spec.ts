@@ -29,7 +29,8 @@ describe('PersonaService', () => {
   });
 
   describe('createPersona', () => {
-    it('should return expected personaId', async () => {
+    it('should return expected personaId when no personas exist in given projectId', async () => {
+      dynamoMock.getPersonas.mockResolvedValue([]);
       dynamoMock.putPersona.mockResolvedValue(TEST_PERSONA_ID);
 
       personaService
@@ -41,6 +42,54 @@ describe('PersonaService', () => {
           role: TEST_PERSONA_ROLE
         })
         .then((result) => expect(result).toEqual(TEST_PERSONA_ID));
+    });
+
+    it('should return expected personaId when no personas exist with given name in given projectId', async () => {
+      dynamoMock.getPersonas.mockResolvedValue([
+        {
+          id: '1234',
+          name: 'Different Persona Name',
+          description: TEST_PERSONA_DESCRIPTON,
+          projectId: TEST_PERSONA_PROJECT_ID,
+          quote: TEST_PERSONA_QUOTE,
+          role: TEST_PERSONA_ROLE
+        }
+      ]);
+      dynamoMock.putPersona.mockResolvedValue(TEST_PERSONA_ID);
+
+      personaService
+        .createPersona({
+          name: TEST_PERSONA_NAME,
+          description: TEST_PERSONA_DESCRIPTON,
+          projectId: TEST_PERSONA_PROJECT_ID,
+          quote: TEST_PERSONA_QUOTE,
+          role: TEST_PERSONA_ROLE
+        })
+        .then((result) => expect(result).toEqual(TEST_PERSONA_ID));
+    });
+
+    it('should throw expected error when a persona exists with given name in given projectId', async () => {
+      dynamoMock.getPersonas.mockResolvedValue([
+        {
+          id: '1234',
+          name: TEST_PERSONA_NAME,
+          description: TEST_PERSONA_DESCRIPTON,
+          projectId: TEST_PERSONA_PROJECT_ID,
+          quote: TEST_PERSONA_QUOTE,
+          role: TEST_PERSONA_ROLE
+        }
+      ]);
+      dynamoMock.putPersona.mockResolvedValue(TEST_PERSONA_ID);
+
+      await expect(
+        personaService.createPersona({
+          name: TEST_PERSONA_NAME,
+          description: TEST_PERSONA_DESCRIPTON,
+          projectId: TEST_PERSONA_PROJECT_ID,
+          quote: TEST_PERSONA_QUOTE,
+          role: TEST_PERSONA_ROLE
+        })
+      ).rejects.toEqual(Error(`Persona with name [${TEST_PERSONA_NAME}] already exists`));
     });
   });
 
