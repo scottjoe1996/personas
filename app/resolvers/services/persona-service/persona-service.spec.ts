@@ -10,6 +10,14 @@ const TEST_PERSONA_DESCRIPTON = 'description';
 const TEST_PERSONA_PROJECT_ID = '456';
 const TEST_PERSONA_QUOTE = 'qoute';
 const TEST_PERSONA_ROLE = 'role';
+const TEST_PERSONA = {
+  id: TEST_PERSONA_ID,
+  name: TEST_PERSONA_NAME,
+  description: TEST_PERSONA_DESCRIPTON,
+  projectId: TEST_PERSONA_PROJECT_ID,
+  quote: TEST_PERSONA_QUOTE,
+  role: TEST_PERSONA_ROLE
+};
 
 describe('PersonaService', () => {
   let dynamoMock: MockProxy<PersonaDataInterface>;
@@ -33,6 +41,14 @@ describe('PersonaService', () => {
           role: TEST_PERSONA_ROLE
         })
         .then((result) => expect(result).toEqual(TEST_PERSONA_ID));
+    });
+  });
+
+  describe('getPersonas', () => {
+    it('should return expected personas', async () => {
+      dynamoMock.getPersonas.mockResolvedValue([TEST_PERSONA]);
+
+      personaService.getPersonas(TEST_PERSONA_PROJECT_ID).then((result) => expect(result).toEqual([TEST_PERSONA]));
     });
   });
 });
