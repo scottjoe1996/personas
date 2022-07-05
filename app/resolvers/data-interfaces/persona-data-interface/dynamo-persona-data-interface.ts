@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Persona, PersonaInput } from '../../../generated/graphql';
+import { Persona, CreatePersonaInput } from '../../../generated/graphql';
 
 import { PersonaMapper } from '../data-mapper/persona-mapper';
 
@@ -10,7 +10,7 @@ import { PersonaDataInterface } from './persona-data-interface';
 export class DynamoPersonaDataInterface implements PersonaDataInterface {
   constructor(private dynamoClient: DynamoDB, private tableName: string) {}
 
-  public putPersona(personaInput: PersonaInput): Promise<string> {
+  public putPersona(personaInput: CreatePersonaInput): Promise<string> {
     const personaId = uuidv4();
 
     return this.dynamoClient

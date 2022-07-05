@@ -1,6 +1,6 @@
-import { Persona, PersonaInput } from '../../../generated/graphql';
+import { Persona, CreatePersonaInput } from '../../../generated/graphql';
 
 export interface PersonaDataInterface {
-  putPersona: (personaInput: PersonaInput) => Promise<string>;
+  putPersona: (personaInput: CreatePersonaInput) => Promise<string>;
   getPersonas: (projectId: string) => Promise<Persona[]>;
 }

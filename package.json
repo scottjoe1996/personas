@@ -17,7 +17,6 @@
     "@aws-cdk/aws-appsync-alpha": "^2.28.1-alpha.0",
     "@graphql-codegen/cli": "2.6.2",
     "@graphql-codegen/typescript": "2.5.1",
-    "@graphql-codegen/typescript-resolvers": "2.6.6",
     "@types/aws-lambda": "^8.10.100",
     "@types/jest": "^26.0.10",
     "@types/node": "^10.17.27",

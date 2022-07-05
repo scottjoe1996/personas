@@ -7,7 +7,16 @@ type Persona {
   description: String!
 }
 
-input PersonaInput {
+input CreatePersonaInput {
+  projectId: ID!
+  name: String!
+  role: String!
+  quote: String!
+  description: String!
+}
+
+input EditPersonaInput {
+  id: ID!
   projectId: ID!
   name: String!
   role: String!
@@ -16,8 +25,8 @@ input PersonaInput {
 }
 
 type Mutation {
-  createPersona(persona: PersonaInput!): ID!
-  editPersona(persona: PersonaInput!): Persona!
+  createPersona(persona: CreatePersonaInput!): ID!
+  editPersona(persona: EditPersonaInput!): Persona!
   deletePersona(id: ID!): ID!
 }
 
