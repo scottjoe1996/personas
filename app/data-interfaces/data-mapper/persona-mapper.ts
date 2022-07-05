@@ -1,6 +1,6 @@
 import { AttributeMap } from 'aws-sdk/clients/dynamodb';
 
-import { Persona } from '../../../generated/graphql';
+import { Persona } from '../../generated/graphql';
 
 type AttributeValueKey = 'S';
 

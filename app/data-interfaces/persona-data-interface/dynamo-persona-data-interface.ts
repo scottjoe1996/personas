@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Persona, CreatePersonaInput } from '../../../generated/graphql';
+import { Persona, CreatePersonaInput } from '../../generated/graphql';
 
 import { PersonaMapper } from '../data-mapper/persona-mapper';
 

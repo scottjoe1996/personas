@@ -1,4 +1,4 @@
-import { Persona, CreatePersonaInput } from '../../../generated/graphql';
+import { Persona, CreatePersonaInput } from '../../generated/graphql';
 
 import { PersonaDataInterface } from '../../data-interfaces/persona-data-interface/persona-data-interface';
 
