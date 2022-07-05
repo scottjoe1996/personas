@@ -1,6 +1,6 @@
-import { AppSyncResolverEvent } from 'aws-lambda';
+import { PersonaAppSyncResolverEvent } from './resolver-events';
 
-exports.resolve = async (event: AppSyncResolverEvent<unknown, unknown>) => {
+exports.resolve = async (event: PersonaAppSyncResolverEvent) => {
   switch (event.info.fieldName) {
     case 'persona':
       throw new Error('Persona handler has not yet been implemented');
@@ -13,6 +13,6 @@ exports.resolve = async (event: AppSyncResolverEvent<unknown, unknown>) => {
     case 'deletePersona':
       throw new Error('deletePersona handler has not yet been implemented');
     default:
-      throw new Error(`Event with fieldName ${event.info.fieldName} does not have a handler`);
+      throw new Error(`Event does not have a handler: ${JSON.stringify(event)}`);
   }
 };
