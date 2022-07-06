@@ -11,6 +11,7 @@
     "generate-types": "graphql-codegen --config codegen.yml",
     "cdk-destroy": "cdk destroy --profile ${PROFILE} ${STACK}",
     "cdk-deploy": "cdk deploy --profile ${PROFILE} ${STACK}",
+    "cdk-deploy-all": "cdk deploy --profile ${PROFILE}",
     "cdk-bootstrap": "cdk bootstrap --profile ${PROFILE}"
   },
   "devDependencies": {
