@@ -1,5 +1,5 @@
 import { Config, ConfigFactory } from './config-factory';
-import { CreatePersonaResolverEvent, PersonaAppSyncResolverEvent, PersonasResolverEvent } from './resolver-events';
+import { CreatePersonaResolverEvent, PersonaAppSyncResolverEvent, PersonaResolverEvent, PersonasResolverEvent } from './resolver-events';
 import { ResolverInstantiator } from './resolver-instantiator';
 
 let CONFIG: Config;
@@ -16,7 +16,7 @@ exports.resolve = async (event: PersonaAppSyncResolverEvent) => {
 
   switch (event.info.fieldName) {
     case 'persona':
-      throw new Error('Persona handler has not yet been implemented');
+      return RESOLVER_INSTANTIATOR.getPersonaResolver().resolve(event as PersonaResolverEvent);
     case 'personas':
       return RESOLVER_INSTANTIATOR.getPersonasResolver().resolve(event as PersonasResolverEvent);
     case 'createPersona':
