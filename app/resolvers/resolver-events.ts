@@ -1,6 +1,13 @@
 import { AppSyncResolverEvent } from 'aws-lambda';
 
-import { MutationCreatePersonaArgs, MutationDeletePersonaArgs, MutationEditPersonaArgs, QueryPersonaArgs, QueryPersonasArgs } from '../generated/graphql';
+import {
+  MutationCreatePersonaArgs,
+  MutationDeletePersonaArgs,
+  MutationEditPersonaArgs,
+  Persona,
+  QueryPersonaArgs,
+  QueryPersonasArgs
+} from '../generated/graphql';
 
 type PersonaEventArguements = MutationCreatePersonaArgs | MutationDeletePersonaArgs | MutationEditPersonaArgs | QueryPersonaArgs | QueryPersonasArgs;
 
@@ -23,3 +30,9 @@ export type PersonaAppSyncResolverEvent =
   | CreatePersonaResolverEvent
   | EditPersonaResolverEvent
   | DeletePersonaResolverEvent;
+
+export type PersonaAppSyncResolverResponse = Persona | Persona[] | string;
+
+export interface Resolver<E extends PersonaAppSyncResolverEvent, R extends PersonaAppSyncResolverResponse> {
+  resolve: (resolverEvent: E) => Promise<R>;
+}
