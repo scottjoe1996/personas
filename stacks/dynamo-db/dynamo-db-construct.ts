@@ -13,11 +13,11 @@ export class DynamoDbConstruct extends Construct {
     const personasTable = new Table(this, 'PersonasTable', {
       tableName: customProps.dynamoDbTableName,
       partitionKey: {
-        name: 'id',
+        name: 'projectId',
         type: AttributeType.STRING
       },
       sortKey: {
-        name: 'projectId',
+        name: 'id',
         type: AttributeType.STRING
       },
       removalPolicy: RemovalPolicy.DESTROY
