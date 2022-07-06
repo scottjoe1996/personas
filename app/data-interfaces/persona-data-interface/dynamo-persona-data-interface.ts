@@ -24,7 +24,7 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
           quote: { S: personaInput.quote },
           projectId: { S: personaInput.projectId }
         },
-        ReturnValues: 'ALL_NEW'
+        ReturnValues: 'NONE'
       })
       .promise()
       .then((dynamoResponse) => {
