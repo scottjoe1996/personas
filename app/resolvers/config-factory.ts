@@ -2,7 +2,7 @@ import { PersonaService } from '../services/persona-service/persona-service';
 import { DynamoPersonaDataInterface } from '../data-interfaces/persona-data-interface/dynamo-persona-data-interface';
 import { DynamoDB } from 'aws-sdk';
 
-interface Config {
+export interface Config {
   personaService: PersonaService;
 }
 
