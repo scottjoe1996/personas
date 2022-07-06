@@ -60,4 +60,25 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
         return [];
       });
   }
+
+  public getPersona(projectId: string, id: string): Promise<Persona> {
+    return this.dynamoClient
+      .getItem({
+        TableName: this.tableName,
+        Key: { projectId: { S: projectId }, id: { S: id } }
+      })
+      .promise()
+      .then((dynamoResponse) => {
+        if (dynamoResponse.$response.error) {
+          console.log(`Failed to get item with id ${id} in ${this.tableName} table with error: ${dynamoResponse.$response.error.message}`);
+          throw dynamoResponse.$response.error;
+        }
+
+        if (dynamoResponse.Item) {
+          return PersonaMapper.dynamoItemToGraphQl(dynamoResponse.Item);
+        }
+
+        throw new Error(`Persona with id ${id} does not exist`);
+      });
+  }
 }
