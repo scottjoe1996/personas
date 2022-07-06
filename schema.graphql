@@ -27,10 +27,10 @@ input EditPersonaInput {
 type Mutation {
   createPersona(persona: CreatePersonaInput!): ID!
   editPersona(persona: EditPersonaInput!): Persona!
-  deletePersona(id: ID!): ID!
+  deletePersona(projectId: ID!, id: ID!): ID!
 }
 
 type Query {
-  persona(id: ID!): Persona
+  persona(projectId: ID!, id: ID!): Persona
   personas(projectId: ID!): [Persona!]!
 }

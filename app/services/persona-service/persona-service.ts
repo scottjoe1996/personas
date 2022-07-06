@@ -15,6 +15,10 @@ export class PersonaService {
     });
   }
 
+  public getPersona(projectId: string, id: string): Promise<Persona[]> {
+    return this.personaDataInterface.getPersonas(projectId);
+  }
+
   public getPersonas(projectId: string): Promise<Persona[]> {
     return this.personaDataInterface.getPersonas(projectId);
   }
