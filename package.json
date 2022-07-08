@@ -18,15 +18,15 @@
     "@aws-cdk/aws-appsync-alpha": "^2.28.1-alpha.0",
     "@graphql-codegen/cli": "2.6.2",
     "@graphql-codegen/typescript": "2.5.1",
-    "@types/aws-lambda": "^8.10.100",
+    "@types/aws-lambda": "^8.10.101",
     "@types/jest": "^26.0.10",
-    "@types/node": "^10.17.27",
+    "@types/node": "^10.17.60",
     "@types/uuid": "^8.3.4",
-    "aws-cdk-lib": "^2.28.1",
+    "aws-cdk-lib": "^2.31.0",
     "aws-lambda": "^1.0.7",
-    "cdk": "^2.28.1",
-    "constructs": "^10.1.42",
-    "esbuild": "^0.14.46",
+    "cdk": "^2.31.0",
+    "constructs": "^10.1.43",
+    "esbuild": "^0.14.48",
     "graphql": "^16.5.0",
     "jest": "^26.4.2",
     "jest-mock-extended": "^2.0.6",
@@ -36,7 +36,7 @@
     "typescript": "~3.9.7"
   },
   "dependencies": {
-    "aws-sdk": "^2.1161.0",
+    "aws-sdk": "^2.1170.0",
     "source-map-support": "^0.5.16",
     "uuid": "^8.3.2"
   }
