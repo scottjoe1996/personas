@@ -88,13 +88,16 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
         TableName: this.tableName,
         Key: { projectId: { S: personaInput.projectId }, id: { S: personaInput.id } },
         ConditionExpression: 'id = :id, ',
-        UpdateExpression: 'SET name = :name, quote = :quote, role = :role, description = :description',
+        UpdateExpression: 'SET #name = :name, quote = :quote, role = :role, description = :description',
         ExpressionAttributeValues: {
           ':id': { S: personaInput.id },
           ':name': { S: personaInput.name },
           ':quote': { S: personaInput.quote },
           ':role': { S: personaInput.role },
           ':description': { S: personaInput.description }
+        },
+        ExpressionAttributeNames: {
+          '#name': 'name'
         },
         ReturnValues: 'ALL_NEW'
       })
