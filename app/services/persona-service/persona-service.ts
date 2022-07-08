@@ -1,4 +1,4 @@
-import { Persona, CreatePersonaInput } from '../../generated/graphql';
+import { Persona, CreatePersonaInput, EditPersonaInput } from '../../generated/graphql';
 
 import { PersonaDataInterface } from '../../data-interfaces/persona-data-interface/persona-data-interface';
 
@@ -21,5 +21,9 @@ export class PersonaService {
 
   public getPersonas(projectId: string): Promise<Persona[]> {
     return this.personaDataInterface.getPersonas(projectId);
+  }
+
+  public editPersona(persona: EditPersonaInput): Promise<Persona> {
+    return this.personaDataInterface.editPersona(persona);
   }
 }

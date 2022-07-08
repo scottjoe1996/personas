@@ -108,4 +108,12 @@ describe('PersonaService', () => {
       personaService.getPersona(TEST_PERSONA_PROJECT_ID, TEST_PERSONA_ID).then((result) => expect(result).toEqual(TEST_PERSONA));
     });
   });
+
+  describe('editPersona', () => {
+    it('should return expected persona', async () => {
+      dynamoMock.editPersona.mockResolvedValue(TEST_PERSONA);
+
+      personaService.editPersona(TEST_PERSONA).then((result) => expect(result).toEqual(TEST_PERSONA));
+    });
+  });
 });
