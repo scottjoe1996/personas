@@ -1,7 +1,7 @@
 import { DynamoDB } from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Persona, CreatePersonaInput } from '../../generated/graphql';
+import { Persona, CreatePersonaInput, EditPersonaInput } from '../../generated/graphql';
 
 import { PersonaMapper } from '../data-mapper/persona-mapper';
 
@@ -79,6 +79,37 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
         }
 
         throw new Error(`Persona with id ${id} does not exist`);
+      });
+  }
+
+  public editPersona(personaInput: EditPersonaInput): Promise<Persona> {
+    return this.dynamoClient
+      .updateItem({
+        TableName: this.tableName,
+        Key: { projectId: { S: personaInput.projectId }, id: { S: personaInput.id } },
+        ConditionExpression: 'id = :id, ',
+        UpdateExpression: 'SET name = :name, quote = :quote, role = :role, description = :description',
+        ExpressionAttributeValues: {
+          ':id': { S: personaInput.id },
+          ':name': { S: personaInput.name },
+          ':quote': { S: personaInput.quote },
+          ':role': { S: personaInput.role },
+          ':description': { S: personaInput.description }
+        },
+        ReturnValues: 'ALL_NEW'
+      })
+      .promise()
+      .then((dynamoResponse) => {
+        if (dynamoResponse.$response.error) {
+          console.log(`Failed to update item with id ${personaInput.id} in ${this.tableName} table with error: ${dynamoResponse.$response.error.message}`);
+          throw dynamoResponse.$response.error;
+        }
+
+        if (dynamoResponse.Attributes) {
+          return PersonaMapper.dynamoItemToGraphQl(dynamoResponse.Attributes);
+        }
+
+        throw new Error(`Update for persona ${personaInput.id} was successful but failed to get attributes from dynamo response`);
       });
   }
 }
