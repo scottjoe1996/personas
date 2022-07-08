@@ -1,5 +1,6 @@
 import { PersonaService } from '../services/persona-service/persona-service';
 import { CreatePersonaResolver } from './create-persona-resolver/create-persona-resolver';
+import { EditPersonaResolver } from './edit-persona-resolver/edit-persona-resolver';
 import { PersonaResolver } from './persona-resolver/persona-resolver';
 import { PersonasResolver } from './personas-resolver/personas-resolver';
 
@@ -7,6 +8,7 @@ export class ResolverInstantiator {
   private createPersonaResolver?: CreatePersonaResolver;
   private personasResolver?: PersonasResolver;
   private personaResolver?: PersonaResolver;
+  private editPersonaResolver?: EditPersonaResolver;
 
   constructor(private personaService: PersonaService) {}
 
@@ -32,5 +34,13 @@ export class ResolverInstantiator {
     }
 
     return this.personaResolver;
+  }
+
+  public getEditPersonaResolver(): EditPersonaResolver {
+    if (!this.editPersonaResolver) {
+      this.editPersonaResolver = new EditPersonaResolver(this.personaService);
+    }
+
+    return this.editPersonaResolver;
   }
 }
