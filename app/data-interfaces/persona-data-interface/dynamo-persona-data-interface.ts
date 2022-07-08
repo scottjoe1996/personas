@@ -27,13 +27,12 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
         ReturnValues: 'NONE'
       })
       .promise()
-      .then((dynamoResponse) => {
-        if (dynamoResponse.$response.error) {
-          console.log(`Failed to put persona object in ${this.tableName} table with error: ${dynamoResponse.$response.error.message}`);
-          throw dynamoResponse.$response.error;
-        }
-
+      .then(() => {
         return personaId;
+      })
+      .catch((err) => {
+        console.error(`Failed to put persona object in ${this.tableName} table with error: ${err.message}`);
+        throw err;
       });
   }
 
@@ -48,16 +47,15 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
       })
       .promise()
       .then((dynamoResponse) => {
-        if (dynamoResponse.$response.error) {
-          console.log(`Failed to get personas in ${this.tableName} table with error: ${dynamoResponse.$response.error.message}`);
-          throw dynamoResponse.$response.error;
-        }
-
         if (dynamoResponse.Items) {
           return dynamoResponse.Items.map((item) => PersonaMapper.dynamoItemToGraphQl(item));
         }
 
         return [];
+      })
+      .catch((err) => {
+        console.error(`Failed to get personas in ${this.tableName} table with error: ${err.message}`);
+        throw err;
       });
   }
 
@@ -69,16 +67,15 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
       })
       .promise()
       .then((dynamoResponse) => {
-        if (dynamoResponse.$response.error) {
-          console.log(`Failed to get item with id ${id} in ${this.tableName} table with error: ${dynamoResponse.$response.error.message}`);
-          throw dynamoResponse.$response.error;
-        }
-
         if (dynamoResponse.Item) {
           return PersonaMapper.dynamoItemToGraphQl(dynamoResponse.Item);
         }
 
         throw new Error(`Persona with id ${id} does not exist`);
+      })
+      .catch((err) => {
+        console.error(`Failed to get item with id ${id} in ${this.tableName} table with error: ${err.message}`);
+        throw err;
       });
   }
 
@@ -104,16 +101,16 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
       })
       .promise()
       .then((dynamoResponse) => {
-        if (dynamoResponse.$response.error) {
-          console.log(`Failed to update item with id ${personaInput.id} in ${this.tableName} table with error: ${dynamoResponse.$response.error.message}`);
-          throw dynamoResponse.$response.error;
-        }
-
         if (dynamoResponse.Attributes) {
           return PersonaMapper.dynamoItemToGraphQl(dynamoResponse.Attributes);
         }
 
         throw new Error(`Update for persona ${personaInput.id} was successful but failed to get attributes from dynamo response`);
+      })
+      .catch((err) => {
+        console.error(`Failed to update item with id ${personaInput.id} in ${this.tableName} table with error: ${err.message}`);
+
+        throw err;
       });
   }
 }
