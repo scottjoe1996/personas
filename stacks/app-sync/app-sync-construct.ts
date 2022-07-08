@@ -21,7 +21,7 @@ export class AppSyncConstruct extends Construct {
     this.resolverLambdaFunction = new NodejsFunction(this, 'AppSyncResolverLambda', {
       entry: join(__dirname, '..', '..', 'app', 'resolvers', 'resolver.ts'),
       handler: 'resolve',
-      functionName: 'app-sync-resolver-lambda',
+      functionName: 'personas-app-sync-resolver-lambda',
       runtime: Runtime.NODEJS_14_X,
       timeout: Duration.seconds(30),
       environment: {
