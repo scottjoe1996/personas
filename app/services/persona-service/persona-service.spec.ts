@@ -116,4 +116,12 @@ describe('PersonaService', () => {
       personaService.editPersona(TEST_PERSONA).then((result) => expect(result).toEqual(TEST_PERSONA));
     });
   });
+
+  describe('deletePersona', () => {
+    it('should return void', async () => {
+      dynamoMock.deletePersona.mockResolvedValue();
+
+      personaService.deletePersona(TEST_PERSONA_PROJECT_ID, TEST_PERSONA_ID).then((result) => expect(result).toEqual(undefined));
+    });
+  });
 });

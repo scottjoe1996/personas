@@ -36,6 +36,20 @@ export class DynamoPersonaDataInterface implements PersonaDataInterface {
       });
   }
 
+  public deletePersona(projectId: string, id: string): Promise<void> {
+    return this.dynamoClient
+      .deleteItem({
+        TableName: this.tableName,
+        Key: { projectId: { S: projectId }, id: { S: id } }
+      })
+      .promise()
+      .then(() => {})
+      .catch((err) => {
+        console.error(`Failed to delete item with id ${id} in ${this.tableName} table with error: ${err.message}`);
+        throw err;
+      });
+  }
+
   public getPersonas(projectId: string): Promise<Persona[]> {
     return this.dynamoClient
       .query({

@@ -27,7 +27,7 @@ input EditPersonaInput {
 type Mutation {
   createPersona(persona: CreatePersonaInput!): ID!
   editPersona(persona: EditPersonaInput!): Persona!
-  deletePersona(projectId: ID!, id: ID!): ID!
+  deletePersona(projectId: ID!, id: ID!): Boolean!
 }
 
 type Query {
