@@ -31,7 +31,7 @@ export type PersonaAppSyncResolverEvent =
   | EditPersonaResolverEvent
   | DeletePersonaResolverEvent;
 
-export type PersonaAppSyncResolverResponse = Persona | Persona[] | string;
+export type PersonaAppSyncResolverResponse = Persona | Persona[] | string | boolean;
 
 export interface Resolver<E extends PersonaAppSyncResolverEvent, R extends PersonaAppSyncResolverResponse> {
   resolve: (resolverEvent: E) => Promise<R>;

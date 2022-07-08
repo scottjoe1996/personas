@@ -1,6 +1,7 @@
 import { Config, ConfigFactory } from './config-factory';
 import {
   CreatePersonaResolverEvent,
+  DeletePersonaResolverEvent,
   EditPersonaResolverEvent,
   PersonaAppSyncResolverEvent,
   PersonaResolverEvent,
@@ -30,7 +31,7 @@ exports.resolve = async (event: PersonaAppSyncResolverEvent) => {
     case 'editPersona':
       return RESOLVER_INSTANTIATOR.getEditPersonaResolver().resolve(event as EditPersonaResolverEvent);
     case 'deletePersona':
-      throw new Error('deletePersona handler has not yet been implemented');
+      return RESOLVER_INSTANTIATOR.getDeletePersonaResolver().resolve(event as DeletePersonaResolverEvent);
     default:
       throw new Error(`Event does not have a handler: ${JSON.stringify(event)}`);
   }

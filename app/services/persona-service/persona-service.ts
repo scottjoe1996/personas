@@ -27,7 +27,7 @@ export class PersonaService {
     return this.personaDataInterface.editPersona(persona);
   }
 
-  public deletePersona(projectId: string, id: string): Promise<void> {
-    return this.personaDataInterface.deletePersona(projectId, id);
+  public deletePersona(projectId: string, id: string): Promise<boolean> {
+    return this.personaDataInterface.deletePersona(projectId, id).then(() => true);
   }
 }

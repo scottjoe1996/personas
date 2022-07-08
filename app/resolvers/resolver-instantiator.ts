@@ -1,5 +1,6 @@
 import { PersonaService } from '../services/persona-service/persona-service';
 import { CreatePersonaResolver } from './create-persona-resolver/create-persona-resolver';
+import { DeletePersonaResolver } from './delete-persona-resolver/delete-persona-resolver';
 import { EditPersonaResolver } from './edit-persona-resolver/edit-persona-resolver';
 import { PersonaResolver } from './persona-resolver/persona-resolver';
 import { PersonasResolver } from './personas-resolver/personas-resolver';
@@ -9,6 +10,7 @@ export class ResolverInstantiator {
   private personasResolver?: PersonasResolver;
   private personaResolver?: PersonaResolver;
   private editPersonaResolver?: EditPersonaResolver;
+  private deletePersonaResolver?: DeletePersonaResolver;
 
   constructor(private personaService: PersonaService) {}
 
@@ -42,5 +44,13 @@ export class ResolverInstantiator {
     }
 
     return this.editPersonaResolver;
+  }
+
+  public getDeletePersonaResolver(): DeletePersonaResolver {
+    if (!this.deletePersonaResolver) {
+      this.deletePersonaResolver = new DeletePersonaResolver(this.personaService);
+    }
+
+    return this.deletePersonaResolver;
   }
 }

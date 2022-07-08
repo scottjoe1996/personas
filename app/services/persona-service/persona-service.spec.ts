@@ -121,7 +121,7 @@ describe('PersonaService', () => {
     it('should return void', async () => {
       dynamoMock.deletePersona.mockResolvedValue();
 
-      personaService.deletePersona(TEST_PERSONA_PROJECT_ID, TEST_PERSONA_ID).then((result) => expect(result).toEqual(undefined));
+      personaService.deletePersona(TEST_PERSONA_PROJECT_ID, TEST_PERSONA_ID).then((result) => expect(result).toEqual(true));
     });
   });
 });
