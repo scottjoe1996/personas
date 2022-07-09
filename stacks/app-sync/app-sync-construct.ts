@@ -1,7 +1,8 @@
 import { Construct } from 'constructs';
 import { join } from 'path';
 
-import { CfnOutput, Duration } from 'aws-cdk-lib';
+import { CfnOutput, Duration, Fn } from 'aws-cdk-lib';
+import { UserPool } from 'aws-cdk-lib/aws-cognito';
 
 import { AuthorizationType, FieldLogLevel, GraphqlApi, Schema } from '@aws-cdk/aws-appsync-alpha';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -40,11 +41,16 @@ export class AppSyncConstruct extends Construct {
       })
     );
 
+    const userPoolId = Fn.importValue('userPoolId');
+    const userPool = UserPool.fromUserPoolId(this, 'UserPool', userPoolId);
     const api = new GraphqlApi(this, 'Api', {
       name: 'personas-api',
       authorizationConfig: {
         defaultAuthorization: {
-          authorizationType: AuthorizationType.API_KEY
+          authorizationType: AuthorizationType.USER_POOL,
+          userPoolConfig: {
+            userPool
+          }
         }
       },
       logConfig: {
