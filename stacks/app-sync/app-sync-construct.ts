@@ -82,9 +82,5 @@ export class AppSyncConstruct extends Construct {
       typeName: 'Mutation',
       fieldName: 'deletePersona'
     });
-
-    new CfnOutput(this, 'AppSyncApiKey', {
-      value: api.apiKey || ''
-    });
   }
 }
